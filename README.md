@@ -1,6 +1,6 @@
-# xianyun
+# myproject
 
-> My swell Nuxt.js project
+> My geometric Nuxt.js project
 
 ## Build Setup
 

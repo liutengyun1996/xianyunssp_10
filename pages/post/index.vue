@@ -88,7 +88,7 @@
                   <i class="el-icon-view"></i>
                   {{v.watch}}
                 </el-row>
-                <span class="content_footer_two">5 赞</span>
+                <span class="content_footer_two">{{v.like}} 赞</span>
               </el-row>
             </div>
           </el-row>
@@ -141,7 +141,7 @@ export default {
       this.$router.push({
         path: "/post/detail",
         // url携带的参数
-        query: {id}
+        query: { id }
       });
     },
     // 封装文章列表
@@ -152,8 +152,15 @@ export default {
           city: this.city
         }
       }).then(res => {
-        console.log(res.data);
+        // console.log(111,res.data);
         this.content = res.data.data;
+        this.content.forEach(v => {
+          if (v.images.length == 0) {
+            v.images.push(
+              "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3092702187,1721489646&fm=26&gp=0.jpg"
+            );
+          }
+        });
       });
     },
     // 封装搜索
@@ -253,6 +260,7 @@ export default {
     a {
       img {
         width: 100%;
+        display: block;
       }
     }
   }

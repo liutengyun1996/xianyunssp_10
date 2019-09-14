@@ -7,13 +7,9 @@
         <el-form ref="form" :model="form" label-width="100%">
           <el-input v-model="form.title" placeholder="请输入标题" class="title"></el-input>
           <!-- 富文本编辑器 -->
-          <div
-            class="quill-editor"
-            :content="form.content"
-            @change="onEditorChange($event)"
-            @ready="onEditorReady($event)"
-            v-quill:myQuillEditor="editorOption"
-          ></div>
+          <div>
+            <VueEditor :config="config" ref="vueEditor" />
+          </div>
           <!-- 选择城市 -->
           <el-form-item label="选择城市" label-width="70px" class="Cityname">
             <el-autocomplete
@@ -25,7 +21,7 @@
           </el-form-item>
           <p>
             <el-button type="primary" size="mini" @click="releaseContent">发布</el-button>&nbsp;或者&nbsp;
-            <a href="#" @click="Draft">保存到草稿</a>
+            <a @click="Draft">保存到草稿</a>
           </p>
         </el-form>
       </el-col>
@@ -44,12 +40,15 @@
 </template>
 
 <script>
+// 引入富文本框
+let VueEditor;
+if (process.browser) {
+  VueEditor = require("vue-word-editor").default;
+}
 export default {
-  
+  components: { VueEditor },
   data() {
     return {
-      editorOption: "",
-      // content: "i am changed",
       // 草稿箱
       draft: [{ title: "222" }],
 
@@ -57,28 +56,56 @@ export default {
         title: "",
         destCity: "",
         content: "",
-        Cityid: "",
-        editorOption: {
-          // some quill options
-          modules: {
-            toolbar: [
-              ["bold", "italic", "underline", "strike"],
-              ["blockquote", "code-block"]
-            ]
-          }
+        Cityid: ""
+      },
+      // 富文本框配置
+      config: {
+        modules: {
+          // 工具栏
+          toolbar: [
+            ["bold", "italic", "underline", "strike"], // toggled buttons
+            ["blockquote", "code-block"],
+            ["image", "video"],
+
+            [{ header: 1 }, { header: 2 }], // custom button values
+            [{ list: "ordered" }, { list: "bullet" }],
+            [{ script: "sub" }, { script: "super" }], // superscript/subscript
+            [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
+            [{ direction: "rtl" }] // text direction
+          ]
+        },
+        // 主题
+        theme: "snow",
+        uploadImage: {
+          url: "http://localhost:1337/upload",
+          name: "files",
+          uploadBefore(file) {
+            return true;
+          },
+          uploadProgress(res) {},
+          uploadSuccess(res, insert) {
+            insert("http://localhost:1337" + res.data[0].url);
+          },
+          uploadError() {},
+          showProgress: false
+        },
+
+        uploadVideo: {
+          url: "http://localhost:1337/upload",
+          name: "files",
+          uploadBefore(file) {
+            return true;
+          },
+          uploadProgress(res) {},
+          uploadSuccess(res, insert) {
+            insert("http://localhost:1337" + res.data[0].url);
+          },
+          uploadError() {}
         }
       }
     };
   },
   methods: {
-    onEditorReady(editor) {
-      console.log("editor ready!", editor);
-    },
-    onEditorChange({ editor, html, text }) {
-      console.log("editor change!", editor, html, text);
-      this.form.content = html;
-      // console.log("editor change!!!!!!!", this.form.content);
-    },
     // 搜索城市展示
     queryCityname(value, cb) {
       if (!value) {
@@ -95,7 +122,7 @@ export default {
           name: value
         }
       }).then(res => {
-        console.log(11, res.data);
+        // console.log(11, res.data);
         // 给数组中每个对象添加value属性
         res.data.data.forEach(v => {
           // 添加value属性
@@ -108,14 +135,21 @@ export default {
         cb(res.data.data);
       });
     },
-    // 保持到草稿
+    // 保存到草稿
     Draft() {
-      // console.log(this.form);
-      this.draft.unshift(this.form);
+      this.form.content = this.$refs.vueEditor.editor.root.innerHTML;
+      console.log(this.form);
+      // this.draft.unshift(this.form);
       // console.log(this.draft);
+      this.$store.dispatch("draft/Save", this.form);
+      // this.draft=this.$store.state.draft.draftInfo
+      console.log(this.$store.state.draft.draftInfo);
+      // this.draft.unshift(this.$store.state.draft.draftInfo);
+      
     },
     // 发布文章
     releaseContent() {
+      this.form.content = this.$refs.vueEditor.editor.root.innerHTML;
       console.log(this.form.content);
       if (this.form.title === "") {
         this.$message.error("请填写标题");
@@ -138,7 +172,7 @@ export default {
                 city: this.form.Cityid
               }
             }).then(res => {
-              console.log(res);
+              // console.log(res);
               if (res.status === 200) {
                 this.$message.success("发布成功");
                 let cityName = res.data.data.cityName.substr(
@@ -155,9 +189,7 @@ export default {
       }
     }
   },
-  mounted() {
-    console.log("app init, my quill insrance object is:", this.myQuillEditor);
-  }
+  mounted() {}
 };
 </script>
 
@@ -202,9 +234,12 @@ export default {
     }
   }
 }
-.quill-editor {
+.ql-editor {
   min-height: 300px;
   max-height: 600px;
   overflow-y: auto;
+  img{
+    width: 30%;
+  }
 }
 </style>

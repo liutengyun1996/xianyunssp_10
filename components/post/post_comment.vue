@@ -77,20 +77,20 @@ export default {
     }
   },
   mounted() {
-    this.$axios({
-      headers: {
-        Authorization: `Bearer ${this.$store.state.user.userInfo.token}`
-      },
-      url: "/posts/comments",
-      params: {
-        post: 4,
-        _sort: "BJS",
-        _limit: 2,
-        _start: 3
-      }
-    }).then(res => {
-      console.log(res);
-    });
+    // this.$axios({
+    //   headers: {
+    //     Authorization: `Bearer ${this.$store.state.user.userInfo.token}`
+    //   },
+    //   url: "/posts/comments",
+    //   params: {
+    //     post: 4,
+    //     // _sort: "BJS",
+    //     _limit: 2,
+    //     _start: 0
+    //   }
+    // }).then(res => {
+    //   console.log(res);
+    // });
   }
 };
 </script>

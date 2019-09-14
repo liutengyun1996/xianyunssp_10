@@ -23,30 +23,31 @@
             </a>
           </el-col>
           <el-col :span="6">
-            <a href="#">
+            <a @click="collect">
               <i class="iconfont iconstar1"></i>
-              <p>收藏</p>
+              <p>{{this.Collect}}</p>
             </a>
           </el-col>
           <el-col :span="6">
-            <a href="#">
+            <a>
               <i class="iconfont iconfenxiang"></i>
               <p>分享</p>
             </a>
           </el-col>
           <el-col :span="6">
-            <a href="#">
+            <a @click="praise">
               <i class="iconfont iconding"></i>
-              <p>点赞(0)</p>
+              <p>点赞({{this.detail.like}})</p>
             </a>
           </el-col>
         </el-row>
         <!-- 评论 -->
-        <postCommit></postCommit>
+        <postCommit ></postCommit>
       </el-col>
       <el-col :span="7" class="right">
         <h4>相关攻略</h4>
         <hr />
+        <correlation @closeMain="closeMain"/>
       </el-col>
     </el-row>
   </div>
@@ -54,30 +55,100 @@
 
 <script>
 import postCommit from "@/components/post/post_comment";
+import correlation from "@/components/post/correlation";
+import moment from "moment";
 export default {
   components: {
-    postCommit
+    postCommit,
+    correlation
   },
   data() {
     return {
       html: "",
-      detail: ""
+      detail: {},
+      Collect: "收藏",
+      id:this.$route.query.id,
     };
   },
-  methods: {},
+  methods: {
+    // 点赞
+    praise() {
+      this.$axios({
+        headers: {
+          Authorization: `Bearer ${this.$store.state.user.userInfo.token}`
+        },
+        url: "/posts/like",
+        params: {
+          id: this.$route.query.id
+        }
+      })
+        .then(res => {
+          // console.log(res);
+          if (res.status === 200) {
+            this.$message.success("点赞成功");
+            this.init();
+          }
+        })
+        .catch(err => {
+          // console.log(err)
+          this.$message.warning("您已点赞");
+        });
+    },
+    // 收藏
+    collect() {
+      this.$axios({
+        headers: {
+          Authorization: `Bearer ${this.$store.state.user.userInfo.token}`
+        },
+        url: "/posts/star",
+        params: {
+          id: this.$route.query.id
+        }
+      })
+        .then(res => {
+          console.log(res);
+          if (res.status === 200) {
+            this.$message.success("收藏成功");
+            this.Collect = "已收藏";
+            this.init();
+          }
+        })
+        .catch(err => {
+          // console.log(err)
+          this.$message.warning("您已收藏");
+        });
+    },
+    // 展示
+    init(id) {
+      this.$axios({
+        url: "/posts",
+        params: {
+          id
+        }
+      }).then(res => {
+        console.log(res.data.data);
+        // console.log(this.$route.query.id);
+        this.html = res.data.data[0].content;
+        this.detail = res.data.data[0];
+        this.detail.created_at = moment(this.detail.created_at).format(
+          "YYYY-MM-DD hh:mm"
+        );
+        if (res.data.data[0].like == null) {
+          this.detail.like = 0;
+        }
+        if (res.data.data[0].watch == null) {
+          this.detail.watch = 1;
+        }
+      });
+    },
+    // 相关攻略传值
+    closeMain(id){
+      this.init(id)
+    }
+  },
   mounted() {
     // 文章详情
-    this.$axios({
-      url: "/posts",
-      params: {
-        id: this.$route.query.id
-      }
-    }).then(res => {
-      // console.log(res.data.data);
-      // console.log(this.$route.query.id);
-      this.html = res.data.data[0].content;
-      this.detail = res.data.data[0];
-    });
+    this.init();
   }
 };
 </script>
@@ -125,7 +196,6 @@ export default {
     }
   }
   .right {
-    background-color: aqua;
     h4 {
       font-size: 18px;
       font-weight: normal;
