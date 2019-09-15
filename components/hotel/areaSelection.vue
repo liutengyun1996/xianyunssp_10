@@ -15,7 +15,7 @@
       </el-col>
     </el-row>
     <!-- 攻略区域 -->
-    <el-row type="flex" class="area">
+    <el-row  type="flex" class="area">
       <el-col :span="3">攻略:</el-col>
       <el-col
         :span="21"

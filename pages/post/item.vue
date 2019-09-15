@@ -2,16 +2,16 @@
   <div>
     <!-- 攻略详情 -->
     <!-- <item :data="list" /> -->
-    <item :data="remark"></item>
+    <Item :data="remark"></Item>
+    乌鸦坐飞机  小鸡炖蘑菇  
   </div>
 </template>
 
 <script>
-// import item from "@/components/post/item";
-import item from "@/components/post/detail_item";
+import Item from "@/components/post/detail_item";
 export default {
   components: {
-    item
+    Item
   },
   data() {
     return {

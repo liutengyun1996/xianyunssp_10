@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import moment, { fn } from "moment";
+import moment from "moment";
 import itemSon from "@/components/post/item_son";
 export default {
   components: {
@@ -47,31 +47,8 @@ export default {
       date = moment(date).format("YYYY-MM-DD HH:mm");
       //   console.log(date);
       return date;
-    }
-    //强行把对象转换成数组
+    } 
   }
-  //   created() {
-  //     console.log(12341, this.data);
-  //   },
-  //   methods: {
-  //     //value是一个对象
-  //     getdata(value) {
-  //       console.log(value);
-  //       if (value.parent) {
-  //         this.item_son.push(value.parent);
-  //         this.getdata(value.parent);
-  //       }
-  //       //递归  每次给的value的值 都不一样
-  //     }
-  //   },
-  //   mounted(){
-  //       setTimeout(()=>{
-  //         //console.log(this.data)
-  //         this.getdata(this.data[0])
-  //         this.item_son.reverse()
-  //         // console.log(this.item_son)
-  //       },1000)
-  //   }
 };
 </script>
 

@@ -21,18 +21,26 @@
           </el-form-item>
           <p>
             <el-button type="primary" size="mini" @click="releaseContent">发布</el-button>&nbsp;或者&nbsp;
-            <a @click="Draft">保存到草稿</a>
+            <a @click="handleDepartSelect">保存到草稿</a>
           </p>
         </el-form>
       </el-col>
+      <!-- 草稿箱 -->
       <el-col :span="5" class="right">
-        <div class="draft">
-          <p>草稿箱（）</p>
-          <ul>
-            <li v-for="(v,i) in draft" :key="i">
-              <p>{{v.title}}</p>
-            </li>
-          </ul>
+        <div class="draft-box">
+          <h4>草稿箱({{locaList.length}})</h4>
+          <div
+            class="draft-title"
+            v-for="(item,index) in locaList"
+            :key="index"
+            @click="handleChoose(item)"
+          >
+            <p>
+              <a>{{item.title}}
+              <i class="el-icon-edit"></i></a>
+            </p>
+            <i class="time">{{item.time}}</i>
+          </div>
         </div>
       </el-col>
     </el-row>
@@ -40,6 +48,7 @@
 </template>
 
 <script>
+import moment from "moment";
 // 引入富文本框
 let VueEditor;
 if (process.browser) {
@@ -49,15 +58,16 @@ export default {
   components: { VueEditor },
   data() {
     return {
-      // 草稿箱
-      draft: [{ title: "222" }],
-
       form: {
         title: "",
         destCity: "",
         content: "",
-        Cityid: ""
+        Cityid: "",
+        time: "", //获取当前时间
+        contents: "", // 文本框内容
+        city: "" // 获取城市
       },
+      locaList: [], //存储数据
       // 富文本框配置
       config: {
         modules: {
@@ -136,16 +146,28 @@ export default {
       });
     },
     // 保存到草稿
-    Draft() {
-      this.form.content = this.$refs.vueEditor.editor.root.innerHTML;
-      console.log(this.form);
-      // this.draft.unshift(this.form);
-      // console.log(this.draft);
-      this.$store.dispatch("draft/Save", this.form);
-      // this.draft=this.$store.state.draft.draftInfo
-      console.log(this.$store.state.draft.draftInfo);
-      // this.draft.unshift(this.$store.state.draft.draftInfo);
-      
+    handleDepartSelect() {
+      //获取当前时间
+      let time = new Date();
+      this.form.time = moment(time).format(`YYYY-MM-DD`);
+      console.log(this.time);
+      // 保存到草稿箱
+      this.form.contents = this.$refs.vueEditor.editor.root.innerHTML;
+      const create = JSON.parse(localStorage.getItem("create") || `[]`);
+      create.push(this.form);
+      this.locaList = create;
+
+      localStorage.setItem("create", JSON.stringify(create));
+    },
+    // 草稿箱历史记录
+    handleChoose(v) {
+      // console.log(v);
+
+      this.form.title = v.title;
+      this.$refs.vueEditor.editor.root.innerHTML = v.contents;
+      this.form.contents = v.contents;
+      this.form.city = v.city;
+      this.form.time = v.time;
     },
     // 发布文章
     releaseContent() {
@@ -189,7 +211,11 @@ export default {
       }
     }
   },
-  mounted() {}
+  mounted() {
+    // 草稿箱
+    const create = JSON.parse(localStorage.getItem("create") || `[]`);
+    this.locaList = create;
+  }
 };
 </script>
 
@@ -229,8 +255,15 @@ export default {
   }
   .right {
     // background-color: aqua;
-    .draft {
+    width: 200px;
+    margin-left: 50px;
+    .draft-box {
       border: 1px solid #ddd;
+      padding: 10px;
+      h4 {
+        color: #666;
+        font-weight: 400;
+      }
     }
   }
 }
@@ -238,8 +271,13 @@ export default {
   min-height: 300px;
   max-height: 600px;
   overflow-y: auto;
-  img{
+  img {
     width: 30%;
+  }
+}
+a{
+  &:hover{
+    cursor: pointer;
   }
 }
 </style>
