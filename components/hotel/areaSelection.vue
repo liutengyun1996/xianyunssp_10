@@ -5,10 +5,13 @@
       <el-col :span="3">区域:</el-col>
       <el-col :span="21" class="areaAll">
         <a href="#">全部</a>
-        <a href="#">全部</a>
-        <a href="#">全部</a>
-        <a v-for="(v,i) in scenics" :key="i">{{v}}</a>
-        <p><a><i class="el-icon-d-arrow-right"></i>等{{scenics.length}}个区域</a></p>
+        <a v-for="(v,i) in scenics" :key="i">{{v.name}}</a>
+        <p>
+          <a @click="unfold">
+            <i class="el-icon-d-arrow-right"></i>
+            等{{scenics.length}}个区域
+          </a>
+        </p>
       </el-col>
     </el-row>
     <!-- 攻略区域 -->
@@ -61,16 +64,26 @@
       </el-col>
     </el-row>
   </div>
-</template>
+</template> 
 
 <script>
 export default {
+  // 区域选择
+  props: {
+    scenics: {
+      type: Array,
+      required: true
+    }
+  },
   data() {
     return {
-      value5: 4,
-      // 区域选择
-      scenics: [111,222]
+      value5: 4
     };
+  },
+  methods: {
+    unfold(){
+      console.log(this.scenics)
+    }
   },
   mounted() {
     this.$axios({
@@ -100,11 +113,11 @@ export default {
       }
     }
   }
-  .areaAll{
-      a{
-        padding-right:8px;
-        padding-bottom:2px;
-      }
+  .areaAll {
+    a {
+      padding-right: 15px;
+      padding-bottom: 3px;
     }
+  }
 }
 </style>
