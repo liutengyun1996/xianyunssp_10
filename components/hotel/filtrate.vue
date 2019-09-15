@@ -16,76 +16,49 @@
         </span>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item v-for="(v,i) in hotelsOptions.levels" :key="i">
-            <i class="el-icon-arrow-down el-icon--right"></i>{{v.name}}
+            <el-checkbox v-model="checked">{{v.name}}</el-checkbox>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
     <div class="block3">
-      <div>住宿等级</div>
+      <div>住宿类型</div>
       <el-dropdown class="huakuai">
         <span class="el-dropdown-link">
           下拉菜单
           <i class="el-icon-arrow-down el-icon--right"></i>
         </span>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item>
-            <i class="el-icon-arrow-down el-icon--right"></i>黄金糕
-          </el-dropdown-item>
-          <el-dropdown-item>
-            <i class="el-icon-arrow-down el-icon--right"></i>黄金糕
-          </el-dropdown-item>
-          <el-dropdown-item>
-            <i class="el-icon-arrow-down el-icon--right"></i>黄金糕
-          </el-dropdown-item>
-          <el-dropdown-item>
-            <i class="el-icon-arrow-down el-icon--right"></i>黄金糕
+          <el-dropdown-item v-for="(v,i) in hotelsOptions.types" :key="i">
+            <el-checkbox v-model="checked">{{v.name}}</el-checkbox>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
     <div class="block4">
-      <div>住宿等级</div>
+      <div>酒店设施</div>
       <el-dropdown class="huakuai">
         <span class="el-dropdown-link">
           下拉菜单
           <i class="el-icon-arrow-down el-icon--right"></i>
         </span>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item>
-            <i class="el-icon-arrow-down el-icon--right"></i>黄金糕
-          </el-dropdown-item>
-          <el-dropdown-item>
-            <i class="el-icon-arrow-down el-icon--right"></i>黄金糕
-          </el-dropdown-item>
-          <el-dropdown-item>
-            <i class="el-icon-arrow-down el-icon--right"></i>黄金糕
-          </el-dropdown-item>
-          <el-dropdown-item>
-            <i class="el-icon-arrow-down el-icon--right"></i>黄金糕
+          <el-dropdown-item v-for="(v,i) in hotelsOptions.assets" :key="i">
+            <el-checkbox v-model="checked">{{v.name}}</el-checkbox>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
     <div class="block5">
-      <div>住宿等级</div>
+      <div>酒店品牌</div>
       <el-dropdown class="huakuai">
         <span class="el-dropdown-link">
           下拉菜单
           <i class="el-icon-arrow-down el-icon--right"></i>
         </span>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item>
-            <i class="el-icon-arrow-down el-icon--right"></i>黄金糕
-          </el-dropdown-item>
-          <el-dropdown-item>
-            <i class="el-icon-arrow-down el-icon--right"></i>黄金糕
-          </el-dropdown-item>
-          <el-dropdown-item>
-            <i class="el-icon-arrow-down el-icon--right"></i>黄金糕
-          </el-dropdown-item>
-          <el-dropdown-item>
-            <i class="el-icon-arrow-down el-icon--right"></i>黄金糕
+          <el-dropdown-item v-for="(v,i) in hotelsOptions.brands" :key="i">
+            <el-checkbox v-model="checked">{{v.name}}</el-checkbox>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -98,7 +71,7 @@ export default {
   data() {
     return {
       //那个滑块的值  现在需求是0-4000
-      
+      checked: true,
       hotelsOptions: {
         valuee: 0, // 滑块值
         assets: [], // 房间设施
@@ -113,7 +86,7 @@ export default {
       url: "hotels/options"
     }).then(res => {
       console.log(1111, res);
-      this.hotelsOptions=res.data.data
+      this.hotelsOptions = res.data.data;
     });
   }
 };
