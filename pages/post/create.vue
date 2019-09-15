@@ -234,7 +234,7 @@ export default {
     }
   }
 }
-.ql-editor {
+/deep/ #editor {
   min-height: 300px;
   max-height: 600px;
   overflow-y: auto;
