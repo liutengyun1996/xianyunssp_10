@@ -42,12 +42,12 @@
           </el-col>
         </el-row>
         <!-- 评论 -->
-        <postCommit ></postCommit>
+        <postCommit></postCommit>
       </el-col>
       <el-col :span="7" class="right">
         <h4>相关攻略</h4>
         <hr />
-        <correlation @closeMain="closeMain"/>
+        <correlation @closeMain="closeMain" />
       </el-col>
     </el-row>
   </div>
@@ -67,7 +67,7 @@ export default {
       html: "",
       detail: {},
       Collect: "收藏",
-      id:this.$route.query.id,
+      id: this.$route.query.id
     };
   },
   methods: {
@@ -142,8 +142,8 @@ export default {
       });
     },
     // 相关攻略传值
-    closeMain(id){
-      this.init(id)
+    closeMain(id) {
+      this.init(id);
     }
   },
   mounted() {
@@ -153,7 +153,7 @@ export default {
 };
 </script>
 
-<style lang="less" scope>
+<style lang="less" scoped>
 .detail {
   width: 1000px;
   margin: 0 auto;
@@ -202,5 +202,9 @@ export default {
       padding-bottom: 10px;
     }
   }
+}
+/deep/ img {
+  // width: 100%;
+  max-width: 700px;
 }
 </style>

@@ -74,7 +74,7 @@ export default {
 };
 </script>
 
-<style lang="less" scope>
+<style lang="less" scoped>
 .content {
   padding: 20px 0;
   border-bottom: 1px solid #ddd;

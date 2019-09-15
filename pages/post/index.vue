@@ -39,7 +39,7 @@
           <img src="http://157.122.54.189:9093/images/pic_sea.jpeg" alt />
         </a>
       </el-col>
-
+ 
       <!-- right -->
       <el-col :span="17" class="post-right">
         <!-- input 搜索 -->
@@ -189,7 +189,7 @@ export default {
 };
 </script>
 
-<style lang="less" scope>
+<style lang="less" scoped>
 .post {
   width: 1000px;
   margin: 0 auto 20px;

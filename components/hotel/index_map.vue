@@ -21,9 +21,31 @@ export default {
     jsapi.charset = "utf-8";
     jsapi.src = url;
     document.head.appendChild(jsapi);
+    this.$axios({
+      url: "https://restapi.amap.com/v3/place/text",
+      params: {
+        keywords: "",
+        city: "南京市",
+        location: "113.896291,22.558554",
+        types: "旅馆",
+        output: "json",
+        page: 1,
+        offset: 10,
+        key: "3f5d5e9fbb24747c0663419eda205908"
+      }
+    }).then(res => {
+      console.log(11111, res);
+    });
   }
 };
 </script>
 
-<style>
+<style lang="less" scoped>
+.map {
+  #container {
+    width: 420px;
+    height: 260px;
+    margin: 0 auto;
+  }
+}
 </style>

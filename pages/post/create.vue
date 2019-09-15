@@ -193,7 +193,7 @@ export default {
 };
 </script>
 
-<style lang="less" scope>
+<style lang="less" scoped>
 .create {
   width: 1000px;
   margin: 0 auto;

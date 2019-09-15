@@ -3,7 +3,7 @@
     <!-- 面包屑 -->
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item>酒店</el-breadcrumb-item>
-      <el-breadcrumb-item>南京市酒店预订</el-breadcrumb-item>
+      <el-breadcrumb-item>{{form.destCity}}酒店预订</el-breadcrumb-item>
     </el-breadcrumb>
 
     <!-- 搜索栏 -->
@@ -26,34 +26,40 @@
       ></el-date-picker>
 
       <!-- 人数选择 -->
-      <el-autocomplete v-model="numPeople" placeholder="请输入人数">
+      <!-- <el-autocomplete v-model="numPeople" placeholder="请输入人数">
         <i class="el-input__icon iconfont iconuser" slot="suffix"></i>
         <template slot-scope="props">
           <div>{{ props.item.label }}</div>
           <span>{{ props.item.value }}</span>
         </template>
-      </el-autocomplete>
+      </el-autocomplete>-->
 
       <!-- 查看价格 -->
       <el-button type="primary">查看价格</el-button>
     </el-form>
 
     <!-- 区域选择及地图 -->
-    <el-row type="flex" class="row-bg">
+    <el-row type="flex" class="row-map">
       <!-- 区域选择 -->
       <el-col :span="14">
-        <div class="grid-content bg-purple"></div>
+        <areaSelection />
       </el-col>
       <!-- 地图 -->
       <el-col :span="10">
-        <div class="grid-content bg-purple-light"></div>
+        <mapShows />
       </el-col>
     </el-row>
   </div>
 </template>
 
 <script>
+import areaSelection from "@/components/hotel/areaSelection";
+import mapShows from "@/components/hotel/index_map";
 export default {
+  components: {
+    areaSelection,
+    mapShows
+  },
   data() {
     return {
       form: {
@@ -94,8 +100,6 @@ export default {
     }
     // 人数选择
   },
-
-  mounted() {}
 };
 </script>
 
@@ -127,10 +131,8 @@ export default {
       }
     }
   }
-  #container {
-    width: 500px;
-    height: 580px;
-    margin: 0 auto;
+  .el-form {
+    margin: 20px 0;
   }
 }
 </style>
