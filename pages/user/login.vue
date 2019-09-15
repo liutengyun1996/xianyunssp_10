@@ -151,39 +151,25 @@ export default {
       //  console.log(this.form);
       // 二次验证
       this.$refs.form.validate(valid => {
-        // 为true表示没有错误
+        //当valid的值等于true说明表单验证通过
         if (valid) {
-          // this.$axios({
-          //   url: "/accounts/login",
-          //   method: "POST",
-          //   data: this.form
-          // })
-          //   .then(res => {
-          //     console.log(res);
-          //     console.log(this.$store.state.user.userInfo);
-          //     if (res.status === 200) {
-          //       this.$store.state.user.userInfo.token = res.data.token;
-          //       this.$store.state.user.userInfo.user = res.data.user;
-          //       this.$message.success("登录成功");
-          //       this.$router.replace("/");
-          //     } else {
-          //       this.$message.error("用户名密码验证失败");
-          //     }
-          //   })
-          //   .catch(err => {
-          //     this.$message.error("用户名密码验证失败");
-          //   });
-          this.$store.dispatch("user/login", this.form).then(res => {
-            // 成功提示
-            this.$message({
-              message: "登录成功，正在跳转",
-              type: "success"
-            });
-            // 跳转到首页
-            setTimeout(() => {
-              this.$router.replace("/");
-            }, 1000);
+          //   console.log('验证通过')
+          this.$axios({
+            url: "/accounts/login",
+            method: "POST", //重要   method没有s
+            data: this.form
+          }).then(res => {
+            // console.log(res);
+            //commit接收两个参数,第一个mutations参数是方法名,第二个是参数数据
+            this.$store.commit("user/setUserInfo",res.data)
+            // this.$router.push({
+            //   path:'/'
+            // })
+            // 返回上一页
+            this.$router.back();
           });
+        } else {
+          console.log("验证失败");
         }
       });
     },

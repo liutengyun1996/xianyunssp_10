@@ -38,7 +38,7 @@
             </i>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item command="personage">个人中心</el-dropdown-item>
-              <el-dropdown-item command="exit">退出</el-dropdown-item>
+              <el-dropdown-item command="exit" @click.native="handleLogout">退出</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
           <!-- 个人中心及退出 -->
@@ -52,6 +52,16 @@
 <script>
 export default {
   methods: {
+    //退出
+    handleLogout() {
+      //清除登录信息
+      this.$store.commit("user/clearUserInfo");
+      this.$message({
+        type: "success",
+        message: "退出成功"
+      });
+    },
+
     handleCommand(command) {
       if (command === "personage") {
         // console.log(123);
@@ -61,10 +71,10 @@ export default {
         const { commit } = this.$store;
         commit("user/cleanUserInfo");
 
-        this.$message({
-          message: "退出成功",
-          type: "success"
-        });
+        // this.$message({
+        //   message: "退出成功",
+        //   type: "success"
+        // });
       }
     }
   }
