@@ -7,59 +7,75 @@
       </div>
       <el-slider v-model="hotelsOptions.valuee" :max="4000"></el-slider>
     </div>
+
+    <!-- 住宿等级 -->
     <div class="block2">
       <div>住宿等级</div>
-      <el-dropdown class="huakuai">
+      <el-dropdown @command="handleLevels" class="huakuai">
         <span class="el-dropdown-link">
-          下拉菜单
+          {{this.hotelsResult.levels}}
           <i class="el-icon-arrow-down el-icon--right"></i>
         </span>
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item v-for="(v,i) in hotelsOptions.levels" :key="i">
-            <el-checkbox v-model="checked">{{v.name}}</el-checkbox>
-          </el-dropdown-item>
+        <el-dropdown-menu slot="dropdown" style="width:10%">
+          <el-dropdown-item
+            v-for="(v,i) in hotelsOptions.levels"
+            :key="i"
+            :command="v.name"
+          >{{v.name}}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
+
+    <!-- 住宿类型 -->
     <div class="block3">
       <div>住宿类型</div>
-      <el-dropdown class="huakuai">
+      <el-dropdown @command="handleTypes" class="huakuai">
         <span class="el-dropdown-link">
-          下拉菜单
+          {{this.hotelsResult.types}}
           <i class="el-icon-arrow-down el-icon--right"></i>
         </span>
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item v-for="(v,i) in hotelsOptions.types" :key="i">
-            <el-checkbox v-model="checked">{{v.name}}</el-checkbox>
-          </el-dropdown-item>
+        <el-dropdown-menu slot="dropdown" style="width:10%">
+          <el-dropdown-item
+            v-for="(v,i) in hotelsOptions.types"
+            :key="i"
+            :command="v.name"
+          >{{v.name}}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
+
+    <!-- 酒店设施 -->
     <div class="block4">
       <div>酒店设施</div>
-      <el-dropdown class="huakuai">
+      <el-dropdown @command="handleAssets" class="huakuai">
         <span class="el-dropdown-link">
-          下拉菜单
+          {{this.hotelsResult.assets}}
           <i class="el-icon-arrow-down el-icon--right"></i>
         </span>
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item v-for="(v,i) in hotelsOptions.assets" :key="i">
-            <el-checkbox v-model="checked">{{v.name}}</el-checkbox>
-          </el-dropdown-item>
+        <el-dropdown-menu slot="dropdown" style="width:10%">
+          <el-dropdown-item
+            v-for="(v,i) in hotelsOptions.assets"
+            :key="i"
+            :command="v.name"
+          >{{v.name}}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
+
+    <!-- 酒店品牌 -->
     <div class="block5">
       <div>酒店品牌</div>
-      <el-dropdown class="huakuai">
+      <el-dropdown @command="handleBrands" class="huakuai">
         <span class="el-dropdown-link">
-          下拉菜单
+          {{this.hotelsResult.brands}}
           <i class="el-icon-arrow-down el-icon--right"></i>
         </span>
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item v-for="(v,i) in hotelsOptions.brands" :key="i">
-            <el-checkbox v-model="checked">{{v.name}}</el-checkbox>
-          </el-dropdown-item>
+        <el-dropdown-menu slot="dropdown" style="width:10%">
+          <el-dropdown-item
+            v-for="(v,i) in hotelsOptions.brands"
+            :key="i"
+            :command="v.name"
+          >{{v.name}}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
@@ -78,8 +94,28 @@ export default {
         brands: [], //酒店品牌
         levels: [], //住宿等级
         types: [] //住宿类型
+      },
+      hotelsResult: {
+        assets: "不限", // 房间设施
+        brands: "不限", //酒店品牌
+        levels: "不限", //住宿等级
+        types: "不限" //住宿类型
       }
     };
+  },
+  methods: {
+    handleLevels(command) {
+      this.hotelsResult.levels = command;
+    },
+    handleTypes(command) {
+      this.hotelsResult.types = command;
+    },
+    handleAssets(command) {
+      this.hotelsResult.assets = command;
+    },
+    handleBrands(command) {
+      this.hotelsResult.brands = command;
+    }
   },
   mounted() {
     this.$axios({

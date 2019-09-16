@@ -4,10 +4,14 @@
     <div class="footer_list">
       <div class="hotel_item" v-for="(item,index) in hoterData" :key="index">
         <div class="hotel_item_left">
-          <img :src="item.photos" alt />
+          <a>
+            <img :src="item.photos" alt />
+          </a>
         </div>
         <div class="hotel_item_center">
-          <h5>{{item.name}}</h5>
+          <h5>
+            <a @click="hotelId(item.id)">{{item.name}}</a>
+          </h5>
           <div class="name">
             <span style="overflow:hidden;">{{item.alias}}</span>
             <span class="title">
@@ -63,6 +67,13 @@ export default {
       hoterData: []
     };
   },
+  methods: {
+    hotelId(id) {
+      this.$router.push({
+        path: `/hotel/hoteldetails?id=${id}`
+      });
+    }
+  },
   mounted() {
     this.$axios({
       url: "/hotels",
@@ -70,7 +81,7 @@ export default {
     }).then(res => {
       // console.log(res)
       this.hoterData = res.data.data;
-      console.log(this.hoterData);
+      console.log("foot", this.hoterData);
     });
     // setInterval(()=>{
     //     console.log(this.$route)
@@ -157,6 +168,11 @@ export default {
         }
       }
     }
+  }
+}
+a {
+  &:hover {
+    cursor: pointer;
   }
 }
 </style>
