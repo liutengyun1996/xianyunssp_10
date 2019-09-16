@@ -50,6 +50,7 @@
         <correlation @closeMain="closeMain" />
       </el-col>
     </el-row>
+    
   </div>
 </template>
 
@@ -57,6 +58,7 @@
 import postCommit from "@/components/post/post_comment";
 import correlation from "@/components/post/correlation";
 import moment from "moment";
+
 export default {
   components: {
     postCommit,
