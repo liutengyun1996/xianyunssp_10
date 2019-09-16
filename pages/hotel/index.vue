@@ -27,13 +27,13 @@
       ></el-date-picker>
 
       <!-- 人数选择 -->
-      <!-- <el-autocomplete v-model="numPeople" placeholder="请输入人数">
+      <el-autocomplete v-model="numPeople" placeholder="请输入人数">
         <i class="el-input__icon iconfont iconuser" slot="suffix"></i>
-        <template slot-scope="props">
+        <!-- <template slot-scope="props">
           <div>{{ props.item.label }}</div>
           <span>{{ props.item.value }}</span>
-        </template>
-      </el-autocomplete>-->
+        </template> -->
+      </el-autocomplete>
 
       <!-- 查看价格 -->
       <el-button type="primary" @click="price">查看价格</el-button>
@@ -78,7 +78,8 @@ export default {
       scenics: [],
       // 价格选择
       priceSelect: "",
-      pois: []
+      pois: [],
+      numPeople:''
     };
   },
   methods: {

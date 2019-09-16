@@ -79,7 +79,8 @@ export default {
       url: "/hotels",
       params: this.$route.query
     }).then(res => {
-      // console.log(res)
+      // console.log(res,3333)
+      // console.log(this.$route.query,444)
       this.hoterData = res.data.data;
       console.log("foot", this.hoterData);
     });
