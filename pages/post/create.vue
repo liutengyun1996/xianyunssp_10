@@ -8,7 +8,9 @@
           <el-input v-model="form.title" placeholder="请输入标题" class="title"></el-input>
           <!-- 富文本编辑器 -->
           <div>
+            <client-only>
             <VueEditor :config="config" ref="vueEditor" />
+            </client-only>
           </div>
           <!-- 选择城市 -->
           <el-form-item label="选择城市" label-width="70px" class="Cityname">
@@ -53,7 +55,7 @@ import moment from "moment";
 let VueEditor;
 if (process.browser) {
   VueEditor = require("vue-word-editor").default;
-}
+} 
 export default {
   components: { VueEditor },
   data() {

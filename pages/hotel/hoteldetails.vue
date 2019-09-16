@@ -59,7 +59,7 @@
     </el-table>
 
     <!-- 这是地图模块组件 -->
-    <Map></Map>
+    <Map :data="smhotelInfo"></Map>
 
     <!-- 这是酒店的基本信息配置 -->
     <div class="hbInfo">
@@ -182,6 +182,7 @@
 <script>
 // import Map form '"@/components/air/flightsListHead.vue"'
 import Map from "@/components/hotel/hoteldetails_map";
+// import { async } from 'q';
 
 export default {
   components: {
@@ -195,9 +196,14 @@ export default {
         product: 0,
         service: 0
       },
+      smhotelInfo: {
+        location: {},
+        real_city: []
+      },
       percentage: {},
       // 设置当前城市页面的当前酒店信息
       hotelInfo: {
+        location: {},
         scores: {}
       },
 
@@ -220,49 +226,53 @@ export default {
     imgqie(index) {
       // console.log(index);
       this.bigimg = this.smimg[index].url;
+    },
+    async gridata() {
+      let res = await this.$axios({
+        url: "/hotels",
+        params: {
+          id: this.$route.query.id,
+          // city: 199,
+          // price_in:200,
+          // scenic:14,
+          // 景点id
+          // name_contains:'广州车陂南'	,
+          // 名字模糊查询
+          // hotellevel:5,
+          // 酒店星级
+          // hoteltype	:'经济'	,
+          // 酒店类型
+          // hotelbrand:'七天连锁',
+          // hotelasset:'wifi',
+          // 酒店设施
+          enterTime: "2019-09-13",
+          leftTime: "2019-06-14",
+          // 入店时间
+          // person:2,
+          // 人数
+          // _sort:-1,
+          // 排序
+          _limit: 10,
+          // 条数
+          _start: 0
+        }
+      });
+      if (res.status === 200) {
+        this.hotelInfo = res.data.data[0];
+        this.smhotelInfo.location = res.data.data[0].location;
+        this.smhotelInfo.real_city = res.data.data[0].real_city;
+        //  console.log(this.smhotelInfo,7771111);
+        // 设置百分比this.hotelInfo
+        this.pScores.environment = this.hotelInfo.scores.environment * 10;
+        this.pScores.product = this.hotelInfo.scores.product * 10;
+        this.pScores.service = this.hotelInfo.scores.service * 10;
+        //  console.log(res,777);
+      }
     }
+    // console.log(this.pScores);
   },
   mounted() {
-    // console.log(this.pScores);
-
-    this.$axios({
-      url: "/hotels",
-      // method:'GET',
-      params: {
-        // id:137,
-        city: 199,
-        // price_in:200,
-        // scenic:14,
-        // 景点id
-        // name_contains:'广州车陂南'	,
-        // 名字模糊查询
-        // hotellevel:5,
-        // 酒店星级
-        // hoteltype	:'经济'	,
-        // 酒店类型
-        // hotelbrand:'七天连锁',
-        // hotelasset:'wifi',
-        // 酒店设施
-        enterTime: "2019-09-13",
-        leftTime: "2019-06-14",
-        // 入店时间
-        // person:2,
-        // 人数
-        // _sort:-1,
-        // 排序
-        _limit: 10,
-        // 条数
-        _start: 0
-      }
-    }).then(res => {
-      console.log(res);
-
-      this.hotelInfo = res.data.data[3];
-      // 设置百分比this.hotelInfo
-      this.pScores.environment = this.hotelInfo.scores.environment * 10;
-      this.pScores.product = this.hotelInfo.scores.product * 10;
-      this.pScores.service = this.hotelInfo.scores.service * 10;
-    });
+    this.gridata();
   }
 };
 </script>

@@ -27,13 +27,13 @@
       ></el-date-picker>
 
       <!-- 人数选择 -->
-      <!-- <el-autocomplete v-model="numPeople" placeholder="请输入人数">
+      <el-autocomplete v-model="numPeople" placeholder="请输入人数">
         <i class="el-input__icon iconfont iconuser" slot="suffix"></i>
-        <template slot-scope="props">
+        <!-- <template slot-scope="props">
           <div>{{ props.item.label }}</div>
           <span>{{ props.item.value }}</span>
-        </template>
-      </el-autocomplete>-->
+        </template> -->
+      </el-autocomplete>
 
       <!-- 查看价格 -->
       <el-button type="primary" @click="price">查看价格</el-button>
@@ -51,56 +51,21 @@
       </el-col>
     </el-row>
 
-    <!-- 酒店选择 -->
-    <el-row type="flex" class="hotel-select">
-      <el-col :span="6">
-        <el-row type="flex" justify="space-between">
-          <span>价格</span>
-          <span>0-4000</span>
-        </el-row>
-        <el-slider v-model="priceSelect" max="4000"></el-slider>
-      </el-col>
-      <el-col :span="4">
-        <el-row>
-          <span>住宿等级</span>
-          <el-dropdown>
-            <span class="el-dropdown-link">
-              下拉菜单
-              <i class="el-icon-arrow-down el-icon--right"></i>
-            </span>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>黄金糕</el-dropdown-item>
-              <el-dropdown-item>狮子头</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
-        </el-row>
-      </el-col>
-      <el-col :span="4">
-        <el-row>
-          <span>住宿类型</span>
-        </el-row>
-      </el-col>
-      <el-col :span="4">
-        <el-row>
-          <span>酒店设施</span>
-        </el-row>
-      </el-col>
-      <el-col :span="4" class="lastrRow">
-        <el-row>
-          <span>酒店品牌</span>
-        </el-row>
-      </el-col>
-    </el-row>
+    <!-- 酒店筛选 -->
+    <Footer />  
   </div>
 </template>
 
 <script>
 import areaSelection from "@/components/hotel/areaSelection";
 import mapShows from "@/components/hotel/index_map";
+import Footer from "@/components/hotel/foot";
+
 export default {
   components: {
     areaSelection,
-    mapShows
+    mapShows,
+    Footer
   },
   data() {
     return {
@@ -113,7 +78,8 @@ export default {
       scenics: [],
       // 价格选择
       priceSelect: "",
-      pois: []
+      pois: [],
+      numPeople:''
     };
   },
   methods: {
@@ -148,8 +114,8 @@ export default {
     },
     // 查看价格
     price() {
-      console.log(this.form);
-      console.log(this.pois);
+      // console.log(this.form);
+      // console.log(this.pois);
     },
     // 查找城市
     findCities() {
@@ -178,7 +144,7 @@ export default {
         key: "3f5d5e9fbb24747c0663419eda205908"
       }
     }).then(res => {
-      console.log(11111, res);
+      // console.log(11111, res);
       this.pois = res.data.pois;
     });
   }
@@ -216,19 +182,8 @@ export default {
   .el-form {
     margin: 20px 0;
   }
-  // 选择区域
-  /deep/.hotel-select {
-    border: 1px solid #ddd;
-    margin: 20px 0;
-    color: #666;
-    .el-col {
-      padding: 5px 30px 5px 10px;
-      border-right: 1px solid #ddd;
-      margin: 0 10px;
-    }
-    .lastrRow {
-      border-right: 0px solid #ddd;
-    }
+  .row-map{
+    margin-bottom: 20px;
   }
 }
 </style>
