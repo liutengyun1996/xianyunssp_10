@@ -19,7 +19,7 @@
     "moment": "^2.24.0",
     "nuxt": "^2.0.0",
     "qrcode": "^1.4.1",
-    "tinymce": "^5.0.15",
+    "tinymce": "^5.2.2",
     "vue-no-ssr": "^1.1.1",
     "vue-quill-editor": "^3.0.6",
     "vue-word-editor": "0.0.1",
